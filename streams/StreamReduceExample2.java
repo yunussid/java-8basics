@@ -1,25 +1,17 @@
-package com.example.streams;
+package com.modernjava.streams;
 
-import com.example.functionalProgramming.Instructor;
-import com.example.functionalProgramming.Instructors;
+import com.modernjava.funcprogramming.Instructors;
 
 import java.util.Optional;
 
 public class StreamReduceExample2 {
     public static void main(String[] args) {
-        //printing the name of the instructor who has the highest year of exp
-        Optional instructors=Instructors.getAll().stream()
-                .reduce((s1,s2)->{
-                    if(s1.getYearsOfExperience()> s2.getYearsOfExperience())
-                        return s1;
-                    else
-                        return s2;
-                });
-        if (instructors.isPresent())
-            System.out.println(instructors.get());
+        //printing the instructor who has the highest years of experience
+        Optional instructor = Instructors.getAll().stream()
+                .reduce((s1,s2)-> s2.getYearsOfExperience()
+                        >s1.getYearsOfExperience()?s2:s1);
+        if(instructor.isPresent())
+            System.out.println(instructor.get());
 
-        Optional instructors1=Instructors.getAll().stream()
-                .reduce((s1,s2)->(s2.getYearsOfExperience()> s1.getYearsOfExperience())?s2:s1);
-        System.out.println(instructors1.get());
     }
 }

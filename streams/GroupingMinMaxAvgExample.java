@@ -1,7 +1,7 @@
-package com.example.streams;
+package com.modernjava.streams;
 
-import com.example.functionalProgramming.Instructor;
-import com.example.functionalProgramming.Instructors;
+import com.modernjava.funcprogramming.Instructor;
+import com.modernjava.funcprogramming.Instructors;
 
 import java.util.Comparator;
 import java.util.IntSummaryStatistics;
@@ -11,47 +11,52 @@ import java.util.stream.Collectors;
 
 public class GroupingMinMaxAvgExample {
     public static void main(String[] args) {
-        //grouping the instructor in tow sets of online course vs not online and get max years of exp of instructor
-        Map<Boolean, Optional<Instructor>> maxInstructor= Instructors.getAll()
+        //grouping the instructors in two sets of online course vs not online
+        //and get the max years of experience of the instructors
+        Map<Boolean, Optional<Instructor>> maxInstructors = Instructors.getAll()
                 .stream().collect(Collectors.groupingBy(Instructor::isOnlineCourses,
                         Collectors.maxBy(Comparator.comparing
                                 (Instructor::getYearsOfExperience))));
-        maxInstructor.forEach((key,value)->{
-            System.out.println("key = "+key+" value = "+value);
-        });
+
+        maxInstructors.forEach((key, value) ->
+                System.out.println("key = " + key + " value = " + value));
         System.out.println("---------");
 
         //collectingAndThen
-        Map<Boolean, Instructor> maxInstructor1= Instructors.getAll()
+        Map<Boolean, Instructor> maxInstructors1 = Instructors.getAll()
                 .stream().collect(Collectors.groupingBy(Instructor::isOnlineCourses,
                         Collectors.collectingAndThen(
                         Collectors.maxBy(Comparator.comparing
                                 (Instructor::getYearsOfExperience)),
                                 Optional::get)));
-        maxInstructor1.forEach((key,value)->{
-            System.out.println("key = "+key+" value = "+value);
-        });
-        System.out.println("-------------------");
-        //average years of exp who teaches online or not
-        Map<Boolean, Double> maxInstructor2= Instructors.getAll()
+
+        maxInstructors1.forEach((key, value) ->
+                System.out.println("key = " + key + " value = " + value));
+
+        //average years of experience of instructors who teaches online or not
+
+        Map<Boolean, Double> maxInstructors2 = Instructors.getAll()
                 .stream().collect(Collectors.groupingBy(Instructor::isOnlineCourses,
-                                Collectors.averagingInt
-                                        (Instructor::getYearsOfExperience)
+                                Collectors.averagingInt(
+                                        Instructor::getYearsOfExperience)
                                 ));
-        maxInstructor2.forEach((key,value)->{
-            System.out.println("key = "+key+" value = "+value);
-        });
-        System.out.println("--------------");
-    //drive a statical summary of group by
-        Map<Boolean, IntSummaryStatistics> maxInstructor3= Instructors.getAll()
+        System.out.println("---------");
+        maxInstructors2.forEach((key, value) ->
+                System.out.println("key = " + key + " value = " + value));
+
+        //drive a statistical summary from properties of grouped items
+
+        Map<Boolean, IntSummaryStatistics> maxInstructors3 = Instructors.getAll()
                 .stream().collect(Collectors.groupingBy(Instructor::isOnlineCourses,
-                        Collectors.summarizingInt
-                                (Instructor::getYearsOfExperience)
+                        Collectors.summarizingInt(
+                                Instructor::getYearsOfExperience)
                 ));
-        maxInstructor3.forEach((key,value)->{
-            System.out.println("key = "+key+" value = "+value);
-        });
+        System.out.println("---------");
+        maxInstructors3.forEach((key, value) ->
+                System.out.println("key = " + key + " value = " + value));
+
+
+
+
     }
-
-
 }
